@@ -1,0 +1,84 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		93609AA21AE4A4410038D6B3 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		93609AA31AE4A4410038D6B3 /* js */ = {isa = PBXFileReference; lastKnownFileType = folder; path = js; sourceTree = "<group>"; };
+		93609AA41AE4A4410038D6B3 /* css */ = {isa = PBXFileReference; lastKnownFileType = folder; path = css; sourceTree = "<group>"; };
+		93609AA51AE4A4410038D6B3 /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
+		93609AA61AE4A4410038D6B3 /* node_modules */ = {isa = PBXFileReference; lastKnownFileType = folder; path = node_modules; sourceTree = "<group>"; };
+		93609AA71AE4A4410038D6B3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		93609AA81AE4A4410038D6B3 /* todomvc-common */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "todomvc-common"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		93DAFECB1AE49FCC007EB3D8 = {
+			isa = PBXGroup;
+			children = (
+				93609AA21AE4A4410038D6B3 /* index.html */,
+				93609AA31AE4A4410038D6B3 /* js */,
+				93609AA41AE4A4410038D6B3 /* css */,
+				93609AA51AE4A4410038D6B3 /* package.json */,
+				93609AA61AE4A4410038D6B3 /* node_modules */,
+				93609AA71AE4A4410038D6B3 /* README.md */,
+				93609AA81AE4A4410038D6B3 /* todomvc-common */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		93DAFECC1AE49FCC007EB3D8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+			};
+			buildConfigurationList = 93DAFECF1AE49FCC007EB3D8 /* Build configuration list for PBXProject "Totalizer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 93DAFECB1AE49FCC007EB3D8;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		93DAFED01AE49FCC007EB3D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		93DAFED11AE49FCC007EB3D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		93DAFECF1AE49FCC007EB3D8 /* Build configuration list for PBXProject "Totalizer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93DAFED01AE49FCC007EB3D8 /* Debug */,
+				93DAFED11AE49FCC007EB3D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 93DAFECC1AE49FCC007EB3D8 /* Project object */;
+}

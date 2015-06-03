@@ -1,0 +1,39 @@
+body, html, footer, input, div {
+    font: 16px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div.label_container {
+    display: inline-block;
+    min-width: 100px;
+    padding-left: 10px;
+    color: blue;
+}
+
+input.field_spacing {
+    margin: 5px
+}
+
+input.align_right {
+    float: right;
+}
+
+div.page_outline {
+    background-color: gainsboro;
+    margin: 15px;
+    padding-left: 15px;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    max-width: 293px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+    border-color: mediumblue;
+}
+
+div.page_title {
+    font: 20px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-align: center;
+    padding: 10px;
+    color: blue
+}
+
