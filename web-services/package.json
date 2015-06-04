@@ -1,0 +1,16 @@
+{
+  "name": "21ca",
+  "version": "0.0.1",
+  "description": "prototype web service to mongo lab",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Aaron Judah",
+  "license": "MIT",
+  "devDependencies": {
+    "mongojs": "^0.18.2",
+    "restify": "^3.0.2"
+  }
+}
