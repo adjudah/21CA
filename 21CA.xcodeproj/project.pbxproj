@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		930B90FE1B24001C004C4495 /* web-services */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "web-services"; sourceTree = "<group>"; };
 		93609AA21AE4A4410038D6B3 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		93609AA31AE4A4410038D6B3 /* js */ = {isa = PBXFileReference; lastKnownFileType = folder; path = js; sourceTree = "<group>"; };
 		93609AA41AE4A4410038D6B3 /* css */ = {isa = PBXFileReference; lastKnownFileType = folder; path = css; sourceTree = "<group>"; };
@@ -20,13 +21,14 @@
 		93DAFECB1AE49FCC007EB3D8 = {
 			isa = PBXGroup;
 			children = (
+				93609AA41AE4A4410038D6B3 /* css */,
 				93609AA21AE4A4410038D6B3 /* index.html */,
 				93609AA31AE4A4410038D6B3 /* js */,
-				93609AA41AE4A4410038D6B3 /* css */,
-				93609AA51AE4A4410038D6B3 /* package.json */,
 				93609AA61AE4A4410038D6B3 /* node_modules */,
+				93609AA51AE4A4410038D6B3 /* package.json */,
 				93609AA71AE4A4410038D6B3 /* README.md */,
 				93609AA81AE4A4410038D6B3 /* todomvc-common */,
+				930B90FE1B24001C004C4495 /* web-services */,
 			);
 			sourceTree = "<group>";
 		};
@@ -38,7 +40,7 @@
 			attributes = {
 				LastUpgradeCheck = 0630;
 			};
-			buildConfigurationList = 93DAFECF1AE49FCC007EB3D8 /* Build configuration list for PBXProject "Totalizer" */;
+			buildConfigurationList = 93DAFECF1AE49FCC007EB3D8 /* Build configuration list for PBXProject "21CA" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -69,7 +71,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		93DAFECF1AE49FCC007EB3D8 /* Build configuration list for PBXProject "Totalizer" */ = {
+		93DAFECF1AE49FCC007EB3D8 /* Build configuration list for PBXProject "21CA" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				93DAFED01AE49FCC007EB3D8 /* Debug */,

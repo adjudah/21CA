@@ -8,8 +8,13 @@
  *
  * UserStore
  */
-var restify = require('restify');
-var client = restify.createJsonClient({url: 'http://localhost:3000'});
+var client = require('browser-request');
+var params = {
+    serviceDomain: 'http://localhost:3000/',
+    serviceRequest: function ( requestPath ) {
+                        return { url: this.serviceDomain + requestPath, json: true };
+                    }
+    };
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
@@ -27,21 +32,32 @@ function update(userName, userRole) {
 }
 
 
-function getUser(userName){
-    client.get('/user/' + userName, function (err, req, res, user) {
-        if (err) {
+var getUser = function (userName) {
+    client( params.serviceRequest('user/' + userName),
+    function (err, res) {
+        if(err){
             console.log("An error ocurred >>>>>>");
             console.log(err);
             _user = {id: null, userName: null, role: UserStore.UserTypes.INVALID_USER };
-        } else {
-            console.log('User with name ' + user.userName + '  >>>>>>>');
-            console.log(user);
-            _user.id = user.id;
-            _user.userName = user.userName;
-            _user.role = user.role;
+        }
+        else {
+            _user.id = res.body.id;
+            _user.userName = res.body.userName;
+            _user.role = res.body.role;
+            console.log ( 'id: ' + _user.id + ' userName: ' + _user.userName + ' role: ' + _user.role);
+            switch (_user.role) {
+                case UserStore.UserTypes.ADMINISTRATOR:
+                case UserStore.UserTypes.SUPERVISOR:
+                case UserStore.UserTypes.ATTENDEE:
+                    break;
+                default:
+           
+            }
+            UserStore.emitChange();
         }
     });
 }
+
 
 var UserStore = assign({}, EventEmitter.prototype, {
 
@@ -80,14 +96,6 @@ AppDispatcher.register(function(action) {
         if (action.userName !== ''){
             getUser(action.userName);
         }
-        switch (_user.role) {
-        case UserStore.UserTypes.ADMINISTRATOR:
-        case UserStore.UserTypes.SUPERVISOR:
-        case UserStore.UserTypes.ATTENDEE:
-            break;
-        default:
-        }
-        UserStore.emitChange();
         break;
          
     default:
