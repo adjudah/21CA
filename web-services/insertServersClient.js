@@ -26,8 +26,8 @@ var server2 = {
 
 var server3 = {
     id: "3",
-    path: "AU.NSW.RAS",
-    name: "Cue Sports 101: Potting @ RAS",
+    path: "AU.NSW.IoCS",
+    name: "Cue Sports 101: Potting @ Institue of Cue Sports",
     ownerUserId: "1",
     status: "active"
     };
