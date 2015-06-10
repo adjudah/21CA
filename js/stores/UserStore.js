@@ -18,7 +18,7 @@ var params = {
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
-var ActionTypes = require('../actions/Actions').ActionTypes;
+var Actions = require('../actions/Actions')
 var assign = require('object-assign');
 var keyMirror = require('keymirror');
 
@@ -47,13 +47,20 @@ var getUser = function (userName) {
             console.log ( 'id: ' + _user.id + ' userName: ' + _user.userName + ' role: ' + _user.role);
             switch (_user.role) {
                 case UserStore.UserTypes.ADMINISTRATOR:
+                    Actions.getServersForAdminUser(_user.id);
+                    //do not emit change because getServersForAdminUser() will do this after it has retreived them.
+                    break;
                 case UserStore.UserTypes.SUPERVISOR:
+                    Actions.getEventsForSupervisor(_user.id)
+                    //same getEventsForSupervisor
+                    break;
                 case UserStore.UserTypes.ATTENDEE:
+                    UserStore.emitChange();
                     break;
                 default:
            
             }
-            UserStore.emitChange();
+           
         }
     });
 }
@@ -91,7 +98,7 @@ var UserStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
     switch(action.actionType) {
 
-    case ActionTypes.AUTHENTICATE_USER:
+    case Actions.ActionTypes.AUTHENTICATE_USER:
         action.userName = action.userName == null ? '' : action.userName.trim();
         if (action.userName !== ''){
             getUser(action.userName);
