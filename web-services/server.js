@@ -91,9 +91,9 @@ server.put(
 
 
 server.get(
-    '/servers',
+    '/servers/:ownerUserId',
     function (req, res, next) {
-        db.servers.find( function (err, data) {
+        db.servers.find( {ownerUserId: req.params.ownerUserId}, function (err, data) {
             res.writeHead(200, responseHeader);
             res.end(JSON.stringify(data));
         });
@@ -157,9 +157,9 @@ server.put(
 
 
 server.get(
-    '/events',
+    '/events/:supervisorId',
     function (req, res, next) {
-        db.events.find( function (err, data) {
+        db.events.find({supervisorId: req.params.supervisorId}, function (err, data) {
             res.writeHead(200, responseHeader);
             res.end(JSON.stringify(data));
         });
