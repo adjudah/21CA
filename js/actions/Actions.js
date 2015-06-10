@@ -13,6 +13,8 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var keyMirror = require('keymirror');
 var actionTypes = keyMirror({
         AUTHENTICATE_USER: null,
+        GET_SERVERS: null,
+        GET_EVENTS: null,
         CREATE_SERVER: null,
         UPDATE_SERVER: null,
         DELETE_SERVER: null,
@@ -25,12 +27,30 @@ var actionTypes = keyMirror({
 var Actions = {
 
     authenticate: function(userName, password) {
-        console.log(actionTypes.AUTHENTICATE_USER);
-        AppDispatcher.dispatch({
-            actionType: actionTypes.AUTHENTICATE_USER,
-            userName: userName,
-            password: password
-        });
+            AppDispatcher.dispatch(
+                {
+                actionType: actionTypes.AUTHENTICATE_USER,
+                userName: userName,
+                password: password
+                }
+            );
+    },
+    getServersForAdminUser: function(userID) {
+            AppDispatcher.dispatch(
+                {
+                actionType: actionTypes.GET_SERVERS,
+                userID: userID
+                }
+            );
+    
+    },
+    getEventsForSupervisor: function(userID) {
+            AppDispatcher.dispatch(
+                {
+                actionType: actionTypes.GET_EVENTS,
+                userID: userID
+                }
+            );
     },
     ActionTypes: actionTypes
  
