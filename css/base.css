@@ -10,10 +10,13 @@ div.label_container {
 }
 
 input.field_spacing {
-    margin: 5px
+    margin: 5px;
+    width: 165px;
 }
 
 input.align_right {
+    margin-top: 5px;
+    margin-right: 8px;
     float: right;
 }
 
