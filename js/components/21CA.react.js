@@ -2,6 +2,9 @@ var React = require('react');
 var Actions = require('../actions/Actions');
 var ActionTypes = require('../constants/Constants').ActionTypes;
 var UserStore = require('../stores/UserStore');
+var ServerStore = require('../stores/ServerStore');
+var EventStore = require('../stores/EventStore');
+
 
 var keyMirror = require('keymirror');
 var PageTypes = keyMirror({
@@ -20,10 +23,15 @@ var App = React.createClass({
     componentDidMount: function()
     {
         UserStore.addChangeListener(this._onChange);
+        ServerStore.addChangeListener(this._onChange);
+        EventStore.addChangeListener(this._onChange);
+
     },
     //Unregister listener
     componentWillUnmount: function() {
         UserStore.removeChangeListener(this._onChange);
+        ServerStore.removeChangeListener(this._onChange);
+        EventStore.removeChangeListener(this._onChange);
     },
     //Event handler for 'change' events coming from the TotalizerStore
     _onChange: function() {
@@ -62,7 +70,7 @@ var LoginPage = React.createClass({
                             <br/>
                             <div className="label_container">Password:</div><input className="field_spacing" id="password" type ="password"/>
                             <br/>
-                            <div className="label_container"/><input className="field_spacing align_right" type="submit" value="Submit" />
+                            <div className="label_container"/><input className="align_right" type="submit" value="Submit" />
                         </form>
                     </div>
                 </div>
@@ -73,21 +81,59 @@ var LoginPage = React.createClass({
 
 var ControlServersPage = React.createClass({
     render: function() {
-        return (
-                <div>
-                   <h3>Control Servers</h3>
-                </div>
+        var servers = ServerStore.getServers();
+        if (servers == null){
+            return (
+                    <div>
+                        <h3>Control Servers</h3>
+                        <div>No servers configured for user.</div>
+                    </div>
+            );
+        }
+        else {
+            var items = [];
+            for (var id in servers){
+                items = items.concat(<div className="border" key={id}>{servers[id].name}</div>);
+            }
+            return (
+                    <div>
+                    <h3>Control Servers</h3>
+                        {items}
+                    </div>
               );
+            }
         }
     });
 
 var ControlEventsPage = React.createClass({
     render: function() {
-        return (
-                <div>
-                   <h3>Control Events</h3>
-                </div>
+        var events = EventStore.getEvents();
+        if (events == null){
+            return (
+                    <div>
+                        <h3>Control Events</h3>
+                        <div>No events found</div>
+                    </div>
+            );
+        }
+        else {
+            var items = [];
+            for (var id in events){
+                items = items.concat(
+                <div className="border" key={id}>
+                    {events[id].name}
+                    <div>
+                        date: {events[id].dateTime} duration: {events[id].duration}
+                    </div>
+                </div>);
+            }
+            return (
+                    <div>
+                    <h3>Control Events</h3>
+                        {items}
+                    </div>
               );
+            }
         }
     });
 
