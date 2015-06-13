@@ -24,7 +24,8 @@ Client access to these web services are inplemented with __browser-request__. Re
 You must have [npm](https://www.npmjs.org/) installed on your computer.
 From the root project directory run these commands from the command line:
 ```
-npm install
+cd <project folder>
+npm install				//installs dependencies in package.json in current folder.
 cd web-services         //is a sub dir of 21CA but is not part of the web app;
 npm install             //installs restify and mongdo.
 ```
@@ -32,17 +33,22 @@ This will install all dependencies.
 
 To build the project, first run this command:
 ```
-npm start
+npm start		//Monitors your source code changes and produces bundle.js. 
+				//See package.json scripts section
 ```
-Authhor: You need this running while you develop:
-This will perform an initial build and start a watcher process that will update bundle.js with any changes you wish to make.  This watcher is based on [Browserify](http://browserify.org/) and [Watchify](https://github.com/substack/watchify), and it transforms React's JSX syntax into standard JavaScript with [Reactify](https://github.com/andreypopp/reactify).
-
+Install npm module http-server globally if not already installed. hint: npm list -global
+```
+npm install -g http-server
+```
 To run the app: 
-    from the project directory run: 
-        http-server -p 8000             (http-server is an npm module)
-        node web-services/server.js     to run the web services configured to listen on port 3000
-    from the browser:
-        http://localhost:8000/index.html
-
+```
+cd <project folder>
+http-server -p 8000             //Serves files from the current diectory. 
+node web-services/server.js     to run the web services configured to listen on port 3000
+```
+Then from the browser:
+```
+http://localhost:8000/index.html
+```
 ## License
 ??????
