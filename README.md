@@ -20,16 +20,13 @@ Client access to these web services are inplemented with __browser-request__. Re
 
 
 ## Running
-
-You must have [npm](https://www.npmjs.org/) installed on your computer.
-From the root project directory run these commands from the command line:
+Run these commands from the command line to install project dependencies.
 ```
 cd <project folder>
 npm install				//installs dependencies in package.json in current folder.
 cd web-services         //is a sub dir of 21CA but is not part of the web app;
-npm install             //installs restify and mongdo.
+npm install             //installs restify and mongdo. See package.json in this folder.
 ```
-This will install all dependencies.
 
 To build the project, first run this command:
 ```
