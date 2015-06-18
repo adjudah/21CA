@@ -84,7 +84,7 @@ var ControlServersPage = React.createClass({
         var servers = ServerStore.getServers();
         if (servers == null){
             return (
-                    <div>
+                    <div className="panel">
                         <h3>Control Servers</h3>
                         <div>No servers configured for user.</div>
                     </div>
@@ -93,11 +93,11 @@ var ControlServersPage = React.createClass({
         else {
             var items = [];
             for (var id in servers){
-                items = items.concat(<div className="border" key={id}>{servers[id].name}</div>);
+                items = items.concat(<div className="item" key={id}>{servers[id].name}</div>);
             }
             return (
-                    <div>
-                    <h3>Control Servers</h3>
+                    <div className="panel">
+                    <div className="panel_title">Control Servers</div>
                         {items}
                     </div>
               );
@@ -110,8 +110,8 @@ var ControlEventsPage = React.createClass({
         var events = EventStore.getEvents();
         if (events == null){
             return (
-                    <div>
-                        <h3>Control Events</h3>
+                    <div className="panel">
+                        <div className="panel_title">Control Events</div>
                         <div>No events found</div>
                     </div>
             );
@@ -120,16 +120,16 @@ var ControlEventsPage = React.createClass({
             var items = [];
             for (var id in events){
                 items = items.concat(
-                <div className="border" key={id}>
+                <div className="item" key={id}>
                     {events[id].name}
-                    <div>
+                    <div className="subItem">
                         date: {events[id].dateTime} duration: {events[id].duration}
                     </div>
                 </div>);
             }
             return (
-                    <div>
-                    <h3>Control Events</h3>
+                    <div className="panel">
+                    <div className="panel_title">Control Events</div>
                         {items}
                     </div>
               );

@@ -39,4 +39,57 @@ div.page_title {
     padding: 10px;
     color: blue
 }
+div.panel_title {
+    font: 20px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-align: center;
+    padding: 10px;
+    color: darkgreen;
+}    
 
+div.panel {
+    text-decoration:none;
+    -webkit-border-radius:7px;
+    -moz-border-radius:7px;
+    border-radius: 7px;
+    font:18px Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    color: white;
+    background-color:#c4b180;
+    background-image: -moz-linear-gradient(top, #c4b180 0%, #aac9d4 100%);
+    background-image: -webkit-linear-gradient(top, #c4b180 0%, #aac9d4 100%);
+    background-image: -o-linear-gradient(top, #c4b180 0%, #aac9d4 100%);
+    background-image: -ms-linear-gradient(top, #c4b180 0%, #aac9d4 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#aac9d4', endColorstr='#aac9d4', GradientType=0);
+    background-image: linear-gradient(top, #c4b180 0%, #aac9d4 100%);
+    -webkit-box-shadow:3px 3px 2px #bababa, inset 0px 0px 1px #ffffff;
+    -moz-box-shadow: 3px 3px 2px #bababa, inset 0px 0px 1px #ffffff;
+    box-shadow:3px 3px 2px #bababa, inset 0px 0px 1px #ffffff;
+    opacity:0.78;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=78);
+    filter: alpha(opacity=78);
+    padding-bottom: 10px;
+    max-width: 450px;
+}
+div.item {
+    display: inline-block;
+    border:solid 1px darkgreen;
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 5px;
+    color: darkgreen;
+    font: 18px Arial, Helvetica, sans-serif;
+    min-width: 400px;
+    margin: 3px;
+    margin-left: 10px;
+    font-weight: 300;
+}
+div.item:hover{
+    border:solid 1px white;
+}
+div.subItem {
+    font: 12px Arial, Helvetica, sans-serif;
+    font-weight: 100;
+    color: inherit;
+}

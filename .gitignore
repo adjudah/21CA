@@ -3,3 +3,6 @@ bundle.min.js
 node_modules/
 *.xcodeproj/project.xcworkspace/xcshareddata/
 *.xcodeproj/project.xcworkspace/xcuserdata/
+21CA.csproj
+bin/
+obj/
