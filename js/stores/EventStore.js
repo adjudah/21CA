@@ -53,7 +53,7 @@ var getevent = function (eventID) {
     });
 }
 
-var getEventsForSupervisor = function (userID) {
+var getEventsForSupervisor = function (userID, actionType) {
     client( params.serviceRequest('events/' + userID),
     function (err, res) {
         if(err){
@@ -64,7 +64,7 @@ var getEventsForSupervisor = function (userID) {
         else {
             _events = res.body;
         }
-        EventStore.emitChange();
+        EventStore.emitChange(actionType);
     });
 }
 
@@ -79,8 +79,8 @@ var EventStore = assign({}, EventEmitter.prototype, {
    return _events;
   },
   
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
+  emitChange: function(actionType) {
+    this.emit(CHANGE_EVENT, actionType);
   },
 
   //  @param {function} callback
@@ -99,7 +99,7 @@ var EventStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
     switch(action.actionType) {
         case ActionTypes.GET_EVENTS:
-            getEventsForSupervisor(action.userID);
+            getEventsForSupervisor(action.userID, action.actionType);
     default:
       // no op
   }

@@ -32,7 +32,7 @@ function update(userName, userRole) {
 }
 
 
-var getUser = function (userName) {
+var getUser = function (userName, actionType) {
     client( params.serviceRequest('user/' + userName),
     function (err, res) {
         if(err){
@@ -45,23 +45,8 @@ var getUser = function (userName) {
             _user.userName = res.body.userName;
             _user.role = res.body.role;
             console.log ( 'id: ' + _user.id + ' userName: ' + _user.userName + ' role: ' + _user.role);
-            switch (_user.role) {
-                case UserStore.UserTypes.ADMINISTRATOR:
-                    Actions.getServersForAdminUser(_user.id);
-                    //do not emit change because getServersForAdminUser() will do this after it has retreived them.
-                    break;
-                case UserStore.UserTypes.SUPERVISOR:
-                    Actions.getEventsForSupervisor(_user.id)
-                    //same getEventsForSupervisor
-                    break;
-                case UserStore.UserTypes.ATTENDEE:
-                    UserStore.emitChange();
-                    break;
-                default:
-           
-            }
-           
         }
+        UserStore.emitChange(actionType);
     });
 }
 
@@ -71,8 +56,8 @@ var UserStore = assign({}, EventEmitter.prototype, {
     getUser: function() {
     return _user;
   },
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
+  emitChange: function(actionType) {
+    this.emit(CHANGE_EVENT, actionType);
   },
 
   //  @param {function} callback
@@ -101,7 +86,7 @@ AppDispatcher.register(function(action) {
     case Actions.ActionTypes.AUTHENTICATE_USER:
         action.userName = action.userName == null ? '' : action.userName.trim();
         if (action.userName !== ''){
-            getUser(action.userName);
+            getUser(action.userName, Actions.ActionTypes.AUTHENTICATE_USER);
         }
         break;
          

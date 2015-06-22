@@ -49,7 +49,7 @@ var getServer = function (serverID) {
     });
 }
 
-var getServersForAdminUser = function (userID) {
+var getServersForAdminUser = function (userID, actionType) {
     client( params.serviceRequest('servers/' + userID),
     function (err, res) {
         if(err){
@@ -60,7 +60,7 @@ var getServersForAdminUser = function (userID) {
         else {
             _servers = res.body;
         }
-        ServerStore.emitChange();
+        ServerStore.emitChange(actionType);
     });
 }
 
@@ -75,8 +75,8 @@ var ServerStore = assign({}, EventEmitter.prototype, {
    return _servers;
   },
   
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
+  emitChange: function(actionType) {
+    this.emit(CHANGE_EVENT, actionType);
   },
 
   //  @param {function} callback
@@ -95,7 +95,7 @@ var ServerStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
     switch(action.actionType) {
         case ActionTypes.GET_SERVERS:
-            getServersForAdminUser(action.userID);
+            getServersForAdminUser(action.userID, action.actionType);
     default:
       // no op
   }
