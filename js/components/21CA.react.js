@@ -55,6 +55,7 @@ var App = React.createClass({
     },
      //Event handler for 'change' events coming from the ServerStore
     _onChangeServerStore: function(actionType) {
+        console.log( 'completed action: ' + actionType);
         switch (actionType) {
         case Actions.ActionTypes.GET_SERVERS:
             this.setState({ currentPage: PageTypes.CONTROL_SERVERS});
@@ -63,6 +64,7 @@ var App = React.createClass({
     },
     //Event handler for 'change' events coming from the EventStore
     _onChangeEventStore: function(actionType) {
+        console.log( 'completed action: ' + actionType);
         switch (actionType) {
         case Actions.ActionTypes.GET_EVENTS:
             this.setState({ currentPage: PageTypes.CONTROL_EVENTS});
@@ -112,12 +114,18 @@ var LoginPage = React.createClass({
 });
 
 var ControlServersPage = React.createClass({
+    addServer: function() {
+        alert('add server');
+    },
     render: function() {
         var servers = ServerStore.getServers();
         if (servers == null){
             return (
                     <div className="panel">
-                        <h3>Control Servers</h3>
+                        <div>
+                            <div className="panel_title">Control Servers</div>
+                            <a className="add" onClick={this.addServer}>+</a>
+                        </div>                        
                         <div>No servers configured for user.</div>
                     </div>
             );
@@ -129,7 +137,10 @@ var ControlServersPage = React.createClass({
             }
             return (
                     <div className="panel">
-                    <div className="panel_title">Control Servers</div>
+                        <div>
+                            <div className="panel_title">Control Servers</div>
+                            <a className="add" onClick={this.addServer}>+</a>
+                        </div>
                         {items}
                     </div>
               );
@@ -143,7 +154,10 @@ var ControlEventsPage = React.createClass({
         if (events == null){
             return (
                     <div className="panel">
-                        <div className="panel_title">Control Events</div>
+                        <div>
+                            <div className="panel_title">Control Events</div>
+                            <a className="add">+</a>
+                        </div> 
                         <div>No events found</div>
                     </div>
             );
@@ -161,7 +175,10 @@ var ControlEventsPage = React.createClass({
             }
             return (
                     <div className="panel">
-                    <div className="panel_title">Control Events</div>
+                        <div>
+                            <div className="panel_title">Control Events</div>
+                            <a className="add">+</a>
+                        </div>
                         {items}
                     </div>
               );

@@ -44,7 +44,20 @@ div.panel_title {
     text-align: center;
     padding: 10px;
     color: darkgreen;
-}    
+    max-width: 420px;
+    display: inline-block;
+    padding-left: 110px;
+    padding-right: 110px;
+    margin: 3px;
+} 
+a.add 
+{
+    font: 25px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    float: right;
+    color: darkgreen;
+    padding-top: 10px;
+    padding-right: 20px;
+}   
 
 div.panel {
     text-decoration:none;
@@ -68,6 +81,7 @@ div.panel {
     -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=78);
     filter: alpha(opacity=78);
     padding-bottom: 10px;
+    padding-left: 10px;
     max-width: 450px;
 }
 div.item {
@@ -82,7 +96,6 @@ div.item {
     font: 18px Arial, Helvetica, sans-serif;
     min-width: 400px;
     margin: 3px;
-    margin-left: 10px;
     font-weight: 300;
 }
 div.item:hover{
