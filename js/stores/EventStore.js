@@ -24,7 +24,7 @@ var keyMirror = require('keymirror');
 
 var CHANGE_EVENT = 'change';
 
-var _event = {id: null, serverId: null, name: null, supervisorId: null, dateTime: null, duration: null, status: null };
+var _event = {_id: null, serverId: null, name: null, supervisorId: null, dateTime: null, duration: null, status: null };
 var _events = [];
 
 
@@ -35,19 +35,12 @@ var getevent = function (eventID) {
             console.log("An error ocurred >>>>>>");
             console.log(err);
             var _event = {
-                id: null, serverID: null, name: null, supervisorId: null,
+                _id: null, serverID: null, name: null, supervisorId: null,
                 dateTime: null, duration: null, status: null };
 
         }
         else {
-            _event.id = res.body.id;
-            _event.name = res.body.name;
-            _event.serverId = res.body.serverId;
-            _event.supervisorId = res.body.supervisorId;
-            _event.dateTime = res.body.dateTime;
-            _event.duration = res.body.duration;
-            _event.status = res.body.status;
-           
+            _event = res.body;
         }
         EventStore.emitChange();
     });

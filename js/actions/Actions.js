@@ -14,10 +14,12 @@ var keyMirror = require('keymirror');
 var actionTypes = keyMirror({
         AUTHENTICATE_USER: null,
         GET_SERVERS: null,
-        GET_EVENTS: null,
+        SELECT_SERVER: null,
         CREATE_SERVER: null,
+        GOTO_CREATE_SERVER: null,
         UPDATE_SERVER: null,
         DELETE_SERVER: null,
+        GET_EVENTS: null,
         CREATE_EVENT: null,
         UPDATE_EVENT: null,
         DELETE_EVENT: null,
@@ -27,28 +29,63 @@ var actionTypes = keyMirror({
 var Actions = {
 
     authenticate: function(userName, password) {
-            AppDispatcher.dispatch(
+        AppDispatcher.dispatch(
                 {
-                actionType: actionTypes.AUTHENTICATE_USER,
-                userName: userName,
-                password: password
+                    actionType: actionTypes.AUTHENTICATE_USER,
+                    userName: userName,
+                    password: password
                 }
             );
     },
     getServersForAdminUser: function(userID) {
-            AppDispatcher.dispatch(
+        AppDispatcher.dispatch(
                 {
-                actionType: actionTypes.GET_SERVERS,
-                userID: userID
+                    actionType: actionTypes.GET_SERVERS,
+                    userID: userID
                 }
             );
-    
     },
-    getEventsForSupervisor: function(userID) {
-            AppDispatcher.dispatch(
+    selectServer: function(index) {
+        AppDispatcher.dispatch(
                 {
-                actionType: actionTypes.GET_EVENTS,
-                userID: userID
+                    actionType: actionTypes.SELECT_SERVER,
+                    serverIndex: index
+                }
+            );
+    },
+    updateServer: function (_id, name, path, status) {
+        AppDispatcher.dispatch(
+                {
+                    actionType: actionTypes.UPDATE_SERVER,
+                    _id: _id,
+                    name: name,
+                    path: path,
+                    status: status
+                }
+            );
+    },
+    createServer: function (name, path, ownerUserId, ownerName, status) {
+        AppDispatcher.dispatch(
+                {
+                    actionType: actionTypes.CREATE_SERVER,
+                    server: { name: name, path: path, owner: {id: ownerUserId, name: ownerName}, status: status }
+                }
+            );
+    },
+    deleteServer: function (_id) {
+        AppDispatcher.dispatch(
+                {
+                    actionType: actionTypes.DELETE_SERVER,
+                    _id: _id
+                }
+            );
+    },
+
+    getEventsForSupervisor: function(userID) {
+        AppDispatcher.dispatch(
+                {
+                    actionType: actionTypes.GET_EVENTS,
+                    userID: userID
                 }
             );
     },

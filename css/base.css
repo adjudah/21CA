@@ -39,25 +39,45 @@ div.page_title {
     padding: 10px;
     color: blue
 }
-div.panel_title {
+span.panel_title {
     font: 20px "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-align: center;
     padding: 10px;
     color: darkgreen;
-    max-width: 420px;
     display: inline-block;
-    padding-left: 110px;
-    padding-right: 110px;
+    width: 75%;
     margin: 3px;
+    background-image: inherit;
 } 
-a.add 
-{
+a.panel_add{
     font: 25px "Helvetica Neue", Helvetica, Arial, sans-serif;
-    float: right;
     color: darkgreen;
     padding-top: 10px;
     padding-right: 20px;
-}   
+}
+
+a.panel_right{
+    float: right;
+}
+a.panel_left{
+    float: left;
+}
+a.panel_navigate {
+    font: 20px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkgreen;
+    padding: 10px;
+}
+div.panel_label {
+    color: darkblue;
+    display: inline-block;
+    width: 70px;
+}
+div.panel_value {
+    color: darkgreen;
+    display: inline-block;
+    font-weight: 200;
+}
+
 
 div.panel {
     text-decoration:none;
@@ -97,6 +117,7 @@ div.item {
     min-width: 400px;
     margin: 3px;
     font-weight: 300;
+    background-image: inherit;
 }
 div.item:hover{
     border:solid 1px white;

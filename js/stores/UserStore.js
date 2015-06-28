@@ -24,7 +24,7 @@ var keyMirror = require('keymirror');
 
 var CHANGE_EVENT = 'change';
 
-var _user = {id: null, userName: null, role: null };
+var _user = {id: null, name: null, userName: null, role: null };
 
 function update(userName, userRole) {
     _user.userName = userName;
@@ -41,10 +41,7 @@ var getUser = function (userName, actionType) {
             _user = {id: null, userName: null, role: UserStore.UserTypes.INVALID_USER };
         }
         else {
-            _user.id = res.body.id;
-            _user.userName = res.body.userName;
-            _user.role = res.body.role;
-            console.log ( 'id: ' + _user.id + ' userName: ' + _user.userName + ' role: ' + _user.role);
+            _user = res.body;
         }
         UserStore.emitChange(actionType);
     });
