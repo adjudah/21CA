@@ -3,6 +3,7 @@ bundle.min.js
 node_modules/
 *.xcodeproj/project.xcworkspace/xcshareddata/
 *.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/Aaron.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
 21CA.csproj
 bin/
 obj/
