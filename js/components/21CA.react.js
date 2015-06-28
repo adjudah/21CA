@@ -73,7 +73,7 @@ var App = React.createClass({
             break;
         case Actions.ActionTypes.UPDATE_SERVER:
             break;
-        // the Server Store is being used as a messaging panel
+        // the Server Store is being used as a routing service. See ViewServerPage
         case Actions.ActionTypes.GOTO_CREATE_SERVER:
             this.setPage(PageTypes.CREATE_SERVER);
             break;
