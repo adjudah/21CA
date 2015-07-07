@@ -16,14 +16,15 @@ var actionTypes = keyMirror({
         GET_SERVERS: null,
         SELECT_SERVER: null,
         CREATE_SERVER: null,
-        GOTO_CREATE_SERVER: null,
         UPDATE_SERVER: null,
         DELETE_SERVER: null,
         GET_EVENTS: null,
         CREATE_EVENT: null,
         UPDATE_EVENT: null,
         DELETE_EVENT: null,
-        NOTIFY_USERS: null
+        NOTIFY_USERS: null,
+		PAGE_REQUEST_PREVIOUS_PAGE: null,
+		PAGE_REQUEST_CREATE_SERVER: null
    });
 
 var Actions = {

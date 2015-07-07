@@ -4,7 +4,7 @@ var ActionTypes = require('../constants/Constants').ActionTypes;
 var UserStore = require('../stores/UserStore');
 var ServerStore = require('../stores/ServerStore');
 var EventStore = require('../stores/EventStore');
-
+var MessageRouter = require('../stores/MessageRouter');
 
 var keyMirror = require('keymirror');
 var PageTypes = keyMirror({
@@ -27,6 +27,7 @@ var App = React.createClass({
         UserStore.addChangeListener(this._onChangeUserStore);
         ServerStore.addChangeListener(this._onChangeServerStore);
         EventStore.addChangeListener(this._onChangeEventStore);
+		MessageRouter.addChangeListener(this._onPageRequest);
 
     },
     //Unregister listener
@@ -34,6 +35,8 @@ var App = React.createClass({
         UserStore.removeChangeListener(this._onChangeUserStore);
         ServerStore.removeChangeListener(this._onChangeServerStore);
         EventStore.removeChangeListener(this._onChangeEventStore);
+		MessageRouter.removeChangeListener(this._onPageRequest);
+		
     },
     /* Notes about the following 3 call routines:
         I have organised for these call backs to return the action type that has just been completed.
@@ -73,10 +76,6 @@ var App = React.createClass({
             break;
         case Actions.ActionTypes.UPDATE_SERVER:
             break;
-        // the Server Store is being used as a routing service. See ViewServerPage
-        case Actions.ActionTypes.GOTO_CREATE_SERVER:
-            this.setPage(PageTypes.CREATE_SERVER);
-            break;
         //what to do after a create Server Post
         case Actions.ActionTypes.CREATE_SERVER:
         case Actions.ActionTypes.DELETE_SERVER:
@@ -90,6 +89,19 @@ var App = React.createClass({
         switch (actionType) {
         case Actions.ActionTypes.GET_EVENTS:
             this.setPage(PageTypes.CONTROL_EVENTS);
+            break;
+        }
+    },
+    //Receive mostlty Page requests from child components
+	//who make the call MessageRouter.RequestAction(actionType);
+    _onPageRequest: function(actionType) {
+        console.log( 'completed action: ' + actionType);
+        switch (actionType) {
+        case Actions.ActionTypes.PAGE_REQUEST_PREVIOUS_PAGE:
+            this.previousPage();
+            break;
+        case Actions.ActionTypes.PAGE_REQUEST_CREATE_SERVER:
+            this.setPage(PageTypes.CREATE_SERVER);
             break;
         }
     },
@@ -113,11 +125,11 @@ var App = React.createClass({
         case PageTypes.CONTROL_SERVERS:
             return <ControlServersPage/>;
         case PageTypes.VIEW_SERVER:
-            return <ViewServerPage previousPage={this.previousPage}/>;
+            return <ViewServerPage />;
         case PageTypes.CREATE_SERVER:
-            return <EditServerPage previousPage={this.previousPage} isNew={true} />;
+            return <EditServerPage isNew={true} />;
         case PageTypes.EDIT_SERVER:
-            return <EditServerPage previousPage={this.previousPage} isNew={false} />;
+            return <EditServerPage isNew={false} />;
         case PageTypes.CONTROL_EVENTS:
             return <ControlEventsPage/>;
 
@@ -153,10 +165,8 @@ var LoginPage = React.createClass({
 
 var ControlServersPage = React.createClass({
     addServer: function() {
-        //Hack, hack .. using the server store to route to the controller view to request
-        //the create server page. It's very convienient because it gives a single point of processing
-        //at the controller view end. Thinking of creating a store just for page requests.
-        ServerStore.emitChange(Actions.ActionTypes.GOTO_CREATE_SERVER);
+       
+        MessageRouter.requestAction(Actions.ActionTypes.PAGE_REQUEST_CREATE_SERVER);
     },
     selectServer: function(id) {
         Actions.selectServer(id);
@@ -209,12 +219,15 @@ var ViewServerPage = React.createClass({
     deleteServer: function() {
         Actions.deleteServer(this.state.server._id);
     },
+	previousPage: function() {
+		MessageRouter.requestAction(Actions.ActionTypes.PAGE_REQUEST_PREVIOUS_PAGE);
+	},
     render: function() {
         var server = ServerStore.getServer();
         return (
             <div className="panel">
                 <div>
-                    <a className="panel_navigate" onClick={this.props.previousPage}>&lt;</a>
+                    <a className="panel_navigate" onClick={this.previousPage}>&lt;</a>
                     <span className="panel_title">Control Server</span>
                     <a className="panel_navigate panel_right">edit</a>
                 </div>
@@ -269,12 +282,15 @@ onSave: function(e) {
         Actions.updateServer( this.state._id, this.state.name, this.state.path, this.state.status );
     }
 },
+previousPage: function() {
+	MessageRouter.requestAction(Actions.ActionTypes.PAGE_REQUEST_PREVIOUS_PAGE);
+},
 render: function() {
     var title = this.props.isNew ? 'Create Control Server' : 'Edit Control Server';
     return (
             <div className="panel">
                 <div>
-                    <a className="panel_navigate" onClick={this.props.previousPage}>&lt;</a>
+                    <a className="panel_navigate" onClick={this.previousPage}>&lt;</a>
                     <span className="panel_title">{title}</span>
                 </div>
                 <form onSubmit={this.onSave}>
