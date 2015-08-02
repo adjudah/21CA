@@ -1,0 +1,5 @@
+{
+  "mongodbUri": "mongodb://localhost/21CAv1",
+  "requiredCollections": ["users", "servers", "events", "claims"],
+  "accessControlAllowOrigin": "http://localhost:8000"
+}

@@ -8,3 +8,5 @@ node_modules/
 bin/
 obj/
 doc/
+cmd.exe.lnk
+

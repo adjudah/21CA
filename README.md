@@ -30,6 +30,7 @@ npm install             //installs restify and mongdo. See package.json in this 
 
 To build the project, first run this command:
 ```
+cd <project folder>
 npm start		//Monitors your source code changes and produces bundle.js. 
 				//See package.json scripts section
 ```
@@ -37,11 +38,31 @@ Install npm module http-server globally if not already installed. hint: npm list
 ```
 npm install -g http-server
 ```
-To run the app: 
+Download and install mongodb. Follow installation instructions for your target system
+and ensure that the mongodb deamon or Windows service is running. You will need to know the
+installation directory for mongodb. Try running:
+```
+<Mongodb Installation folder>mongo		//client piece for mongoDB. You should get a connection.
+```
+If sucessful go on to define the 21CA database and load initial data with this script:
+```
+cd <project folder>/web-services
+<mongodb installation folder>mongo localhost/test loadInitialData.js
+```
+Confirm sucessful load with:
+```
+<mongodb installation folder>mongo		//should connect and place you in the test database.
+user 21CAv1								// this is case sensitive
+db.users.find()							// should return 3 users
+db.servers.find()						// should return 3 servers
+db.evets.find()							// should return 3 events
+```
+We are now ready to run the project:
 ```
 cd <project folder>
 http-server -p 8000             //Serves files from the current diectory. 
-node web-services/server.js     to run the web services configured to listen on port 3000
+cd web-services
+node server.js					//to run the web services configured to listen on port 3000
 ```
 Then from the browser:
 ```

@@ -1,10 +1,13 @@
 //
+var credentials = { mongodbUri: "mongodb://localhost/21CAv1" };
 var restify = require('restify');
 var mongojs = require('mongojs');
 var ObjectId = mongojs.ObjectId;
-
-//mongodb://<dbuser>:<dbpassword>@ds035167.mongolab.com:35167/21ca
-var db = mongojs('mongodb://adjudah:Maanshan9515@ds035167.mongolab.com:35167/21ca',['users', 'servers', 'events', 'claims']);
+//Read configuration. It contains sensitive connection information
+var fs = require('fs');
+var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+//Open the database
+var db = mongojs(config.mongodbUri, config.requiredCollections);
 
 //Server
 var server = restify.createServer();
@@ -18,11 +21,9 @@ server.listen(3000, function () {
 });
 
 var responseHeader = {
-        'Access-Control-Allow-Origin': 'http://localhost:8000',
+    'Access-Control-Allow-Origin': config.accessControlAllowOrigin,
         'Content-Type': 'application/json; charset=utf-8'
-        }
-
-
+}
 
 //-------------------Start Users---------------------------------
 server.get(
