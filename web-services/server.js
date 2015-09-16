@@ -1,17 +1,14 @@
-//
-var credentials = { mongodbUri: "mongodb://localhost/21CAv1" };
 var restify = require('restify');
 var mongojs = require('mongojs');
 var ObjectId = mongojs.ObjectId;
+
 //Read configuration. It contains sensitive connection information
 var fs = require('fs');
 var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 //Open the database
 var db = mongojs(config.mongodbUri, config.requiredCollections);
 
-//Server
 var server = restify.createServer();
- 
 server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
