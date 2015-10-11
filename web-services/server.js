@@ -21,11 +21,11 @@ var responseHeader = function (allowableOrigins){
     return { 'Access-Control-Allow-Origin': allowableOrigins,
             'Content-Type': 'application/json; charset=utf-8'};
 }
-// Arrive here because the server cannot fild a route that matches METHOD = OPTIONS,
+// Arrive here because the server cannot find a route that matches METHOD = OPTIONS,
 // hence all requests of this type are handled here.
 // handle pre-flight requests with Method = OPTIONS.
 // see article: https://github.com/restify/node-restify/issues/284
-// Pre-flight requests can be cached. See: Access-Control-Max-Age
+// Pre-flight requests can be cached by the browser. See: Access-Control-Max-Age
 function unknownMethodHandler(req, res) {
   if (req.method.toLowerCase() === 'options') {
     var allowHeaders = ['Accept', 'Accept-Version', 'Content-Type', 'Api-Version', 'Authorization'];

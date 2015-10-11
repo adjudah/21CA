@@ -29,14 +29,14 @@ var actionTypes = keyMirror({
 
 var Actions = {
 
-    authenticate: function(userName, password) {
+    authenticate: function(email) {
         AppDispatcher.dispatch(
                 {
                     actionType: actionTypes.AUTHENTICATE_USER,
-                    userName: userName,
-                    password: password
+                    email: email
                 }
             );
+            console.log('In App Dispatcher: ' + email);
     },
     getServersForAdminUser: function(userID) {
         AppDispatcher.dispatch(

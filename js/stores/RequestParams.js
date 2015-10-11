@@ -5,25 +5,28 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
- *
- 
  */
+
+var fs = require('fs');
+
+// Build the Authorisation header for the User Token found in Local Storage.
 function buildHeaders(){
-    firstRequest = false;
     var idToken = localStorage.getItem('userToken');
-    if (idToken)
+    if (idToken){
+        console.log('userToken: ' + idToken);
         return { 'Authorization': 'Bearer ' + idToken };
-    else
+    } else {
+        console.log('userToken not found');
         return {};
+    }
 }
 
-var firstRequest = true;
 
 var RequestParams = {
-        serviceDomain: 'http://192.168.0.4:3000/',
-        headers: {},
+        serviceDomain: 'http://localhost:3000/',
+        headers: null,
         getRequest: function ( requestPath ) {
-            if (firstRequest)
+            if (!this.headers)
                 this.headers = buildHeaders();
             return { url: this.serviceDomain + requestPath, method: 'GET', json: true, headers: this.headers };
         },

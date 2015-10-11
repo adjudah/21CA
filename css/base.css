@@ -2,6 +2,78 @@ body, html, footer, input, div {
     font: 16px "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+body {
+    display: block;
+    margin: 0px;
+}
+
+div.bounded-container {
+    width: 320px;
+    height: 410px;
+    background-color: grey;
+}
+
+/* Discussion:
+    The width and Height dimensions are fixed so that internal scrolling will work.
+    Using Media queries is one way to do this only you will two for each device type.
+    Or you can use Javascript triggered by orientation change.
+    Media queries inspired by: https://css-tricks.com/snippets/css/media-queries-for-standard-devices/
+*/
+/* target iPhone 5 */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    div.bounded-container {
+        width: 320px;
+        height: 568px;
+        background-color: grey;
+    }
+}
+
+/* target iPhone 5 */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+    div.bounded-container {
+        width: 568px;
+        height: 320px;
+        background-color: grey;
+    }
+}
+
+/* Galaxy S5 but not working as yet */
+@media screen 
+  and (device-width: 360px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 3) 
+  and (orientation: portrait) {
+    div.bounded-container {
+        width: 360px;
+        height: 640px;
+        background-color: grey;
+    }
+
+}
+
+/* Galaxy S5 but not working as yet */
+@media screen 
+  and (device-width: 360px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 3) 
+  and (orientation: landscape) {
+    div.bounded-container {
+        width: 640px;
+        height: 360px;
+        background-color: grey;
+    }
+
+}
+
+
 div.label_container {
     display: inline-block;
     min-width: 100px;
@@ -33,13 +105,18 @@ div.page_outline {
     border-color: mediumblue;
 }
 
-div.page_title {
+div.panel_header {
     font: 20px "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-align: center;
-    padding: 10px;
-    color: blue
+    height: 15%;
+    padding-top: 5px;
 }
-span.panel_title {
+div.panel_body{
+    height: 85%;
+    overflow-y: auto;
+    }
+
+div.panel_title {
     font: 20px "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-align: center;
     padding: 10px;
@@ -53,10 +130,10 @@ a.panel_add{
     font: 25px "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: darkgreen;
     padding-top: 10px;
-    padding-right: 20px;
+    padding-right: 10px;
 }
 
-a.panel_right{
+button.panel_right{
     float: right;
 }
 a.panel_left{
@@ -72,18 +149,22 @@ div.panel_label {
     display: inline-block;
     width: 70px;
 }
+div.panel_label_long {
+    color: darkblue;
+    display: inline-block;
+    width: 230px;
+}
+
 div.panel_value {
-    color: darkgreen;
+    color: black;
     display: inline-block;
     font-weight: 200;
 }
 
 
 div.panel {
+    height: 100%;
     text-decoration:none;
-    -webkit-border-radius:7px;
-    -moz-border-radius:7px;
-    border-radius: 7px;
     font:18px Arial, Helvetica, sans-serif;
     font-weight:bold;
     color: white;
@@ -94,18 +175,14 @@ div.panel {
     background-image: -ms-linear-gradient(top, #c4b180 0%, #aac9d4 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#aac9d4', endColorstr='#aac9d4', GradientType=0);
     background-image: linear-gradient(top, #c4b180 0%, #aac9d4 100%);
-    -webkit-box-shadow:3px 3px 2px #bababa, inset 0px 0px 1px #ffffff;
-    -moz-box-shadow: 3px 3px 2px #bababa, inset 0px 0px 1px #ffffff;
-    box-shadow:3px 3px 2px #bababa, inset 0px 0px 1px #ffffff;
     opacity:0.78;
     -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=78);
     filter: alpha(opacity=78);
-    padding-bottom: 10px;
-    padding-left: 10px;
-    max-width: 450px;
-}
+    }
+
+
 div.item {
-    display: inline-block;
+    display: block;
     border:solid 1px darkgreen;
     border-radius: 3px;
     padding-left: 10px;
@@ -114,7 +191,6 @@ div.item {
     padding-bottom: 5px;
     color: darkgreen;
     font: 18px Arial, Helvetica, sans-serif;
-    min-width: 400px;
     margin: 3px;
     font-weight: 300;
     background-image: inherit;
