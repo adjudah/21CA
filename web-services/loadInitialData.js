@@ -18,7 +18,7 @@ db.users.save([
     "password": "",
     "role": "ATTENDEE",
     "status": "active",
-    "email": "rrjudah@iinet.net.au"
+    "email": "youremail@iinet.net.au"
 },
 {
     "_id": ObjectId("555192c05bdb5729418d020d"),
@@ -36,7 +36,7 @@ db.users.save([
     "password": "",
     "role": "ADMINISTRATOR",
     "status": "active",
-    "email": "youremail  @gmail.com"
+    "email": "youremail@gmail.com"
 }
 ])
 

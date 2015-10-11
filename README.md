@@ -44,7 +44,9 @@ installation directory for mongodb. Try running:
 ```
 <Mongodb Installation folder>mongo		//client piece for mongoDB. You should get a connection.
 ```
-If sucessful go on to define the 21CA database and load initial data with this script:
+If sucessful go on to define the 21CA database and use script 'LoadInitialData.js to fill with data. 
+Before running the script edit it and modify the user email address to match the credentials of users 
+that you will be logging in with.
 ```
 cd <project folder>/web-services
 <mongodb installation folder>mongo localhost/test loadInitialData.js
@@ -52,7 +54,7 @@ cd <project folder>/web-services
 Confirm sucessful load with:
 ```
 <mongodb installation folder>mongo		//should connect and place you in the test database.
-user 21CAv1								// this is case sensitive
+use 21CAv1								// this is case sensitive
 db.users.find()							// should return 3 users
 db.servers.find()						// should return 3 servers
 db.evets.find()							// should return 3 events
