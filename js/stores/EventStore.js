@@ -9,12 +9,7 @@
  * ServerStore
  */
 var client = require('browser-request');
-var params = {
-    serviceDomain: 'http://localhost:3000/',
-    serviceRequest: function ( requestPath ) {
-                        return { url: this.serviceDomain + requestPath, json: true };
-                    }
-    };
+var params = require('./RequestParams')
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
@@ -29,7 +24,7 @@ var _events = [];
 
 
 var getevent = function (eventID) {
-    client( params.serviceRequest('event/' + eventID),
+    client( params.getRequest('event/' + eventID),
     function (err, res) {
         if(err){
             console.log("An error ocurred >>>>>>");
@@ -47,7 +42,7 @@ var getevent = function (eventID) {
 }
 
 var getEventsForSupervisor = function (userID, actionType) {
-    client( params.serviceRequest('events/' + userID),
+    client( params.getRequest('events/' + userID),
     function (err, res) {
         if(err){
             console.log("An error ocurred >>>>>>");

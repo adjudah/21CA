@@ -17,17 +17,40 @@ server.listen(3000, function () {
     console.log("Server started @ 3000");
 });
 
-var responseHeader = {
-    'Access-Control-Allow-Origin': config.accessControlAllowOrigin,
-        'Content-Type': 'application/json; charset=utf-8'
+var responseHeader = function (allowableOrigins){
+    return { 'Access-Control-Allow-Origin': allowableOrigins,
+            'Content-Type': 'application/json; charset=utf-8'};
 }
+// Arrive here because the server cannot fild a route that matches METHOD = OPTIONS,
+// hence all requests of this type are handled here.
+// handle pre-flight requests with Method = OPTIONS.
+// see article: https://github.com/restify/node-restify/issues/284
+// Pre-flight requests can be cached. See: Access-Control-Max-Age
+function unknownMethodHandler(req, res) {
+  if (req.method.toLowerCase() === 'options') {
+    var allowHeaders = ['Accept', 'Accept-Version', 'Content-Type', 'Api-Version', 'Authorization'];
+
+    if (res.methods.indexOf('OPTIONS') === -1) res.methods.push('OPTIONS');
+
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Headers', allowHeaders.join(', '));
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Max-Age', 10);
+    return res.send(204);
+  }
+  else
+    return res.send(new restify.MethodNotAllowedError());
+}
+// Listen for Method Not Allowed events
+server.on('MethodNotAllowed', unknownMethodHandler);
 
 //-------------------Start Users---------------------------------
 server.get(
     '/users',
     function (req, res, next) {
         db.users.find(function (err, data) {
-            res.writeHead(200, responseHeader);
+            res.writeHead(200, responseHeader(req.headers.origin));
             res.end(JSON.stringify(data));
         });
         return next();
@@ -35,10 +58,10 @@ server.get(
 );
 
 server.get(
-    '/user/:userName',
+    '/user/:email',
     function (req, res, next) {
-        db.users.findOne({ userName: req.params.userName }, function (err, data) {
-            res.writeHead(200, responseHeader);
+        db.users.findOne({ email: req.params.email }, function (err, data) {
+            res.writeHead(200, responseHeader(req.headers.origin));
             res.end(JSON.stringify(data));
         });
         return next();
@@ -50,7 +73,7 @@ server.post(
     function (req, res, next) {
         var user = req.params;
         db.users.save(user, function (err, data) {
-            res.writeHead(200, responseHeader);
+            res.writeHead(200, responseHeader(req.headers.origin));
             res.end(JSON.stringify(data));
         });
         return next();
@@ -75,7 +98,7 @@ server.put(
                     updUser[n] = req.params[n];
                 }
                 db.users.update({id: req.params.id}, updUser, {multi: false}, function (err, data) {
-                    res.writeHead(200, responseHeader);
+                    res.writeHead(200, responseHeader(req.headers.origin));
                     res.end(JSON.stringify(data));
                 });
             });
@@ -93,7 +116,7 @@ server.get(
     '/servers/:ownerUserId',
     function (req, res, next) {
         db.servers.find( {'owner.id': req.params.ownerUserId}, function (err, data) {
-            res.writeHead(200, responseHeader);
+            res.writeHead(200, responseHeader(req.headers.origin));
             res.end(JSON.stringify(data));
         });
         return next();
@@ -104,7 +127,7 @@ server.get(
     '/server/:id',
     function (req, res, next) {
         db.servers.findOne( { _id: ObjectId(req.params.id) }, function (err, data) {
-            res.writeHead(200, responseHeader);
+            res.writeHead(200, responseHeader(req.headers.origin));
             res.end(JSON.stringify(data));
         });
         return next();
@@ -124,7 +147,7 @@ server.del(
                 // documentation not helpful.
                 console.log("delete failed");
             } else {
-                res.writeHead(200, responseHeader);
+                res.writeHead(200, responseHeader(req.headers.origin));
                 res.end(JSON.stringify(true));
             }
         });
@@ -137,7 +160,7 @@ server.post('/server',
     function (req, res, next) {
         var server = req.params;
         db.servers.save(server, function (err, data) {
-            res.writeHead(200, responseHeader);
+            res.writeHead(200, responseHeader(req.headers.origin));
             // returns the object just posted complete with Mongo generated objectId
             res.end(JSON.stringify(data));
         });
@@ -162,7 +185,7 @@ server.put(
                     updServer[n] = req.params[n];
                 }
                 db.servers.update({id: req.params.id}, updServer, {multi: false}, function (err, data) {
-                    res.writeHead(200, responseHeader);
+                    res.writeHead(200, responseHeader(req.headers.origin));
                     res.end(JSON.stringify(data));
                 });
             }
@@ -182,7 +205,7 @@ server.get(
     '/events/:supervisorId',
     function (req, res, next) {
         db.events.find({'supervisor.id': req.params.supervisorId}, function (err, data) {
-            res.writeHead(200, responseHeader);
+            res.writeHead(200, responseHeader(req.headers.origin));
             res.end(JSON.stringify(data));
         });
         return next();
@@ -193,7 +216,7 @@ server.get(
     '/event/:id',
     function (req, res, next) {
         db.events.findOne({ _id: ObjectId(req.params.id) }, function (err, data) {
-            res.writeHead(200, responseHeader);
+            res.writeHead(200, responseHeader(req.headers.origin));
             res.end(JSON.stringify(data));
         });
         return next();
@@ -204,7 +227,7 @@ server.post('/event',
     function (req, res, next) {
         var event = req.params;
         db.events.save(event, function (err, data) {
-            res.writeHead(200, responseHeader);
+            res.writeHead(200, responseHeader(req.headers.origin));
             res.end(JSON.stringify(data));
         });
         return next();
@@ -228,7 +251,7 @@ server.put(
                     updEvent[n] = req.params[n];
                 }
                 db.events.update({id: req.params.id}, updEvent, {multi: false}, function (err, data) {
-                    res.writeHead(200, responseHeader);
+                    res.writeHead(200, responseHeader(req.headers.origin));
                     res.end(JSON.stringify(data));
                 });
             }

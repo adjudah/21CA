@@ -9,7 +9,7 @@ db.createCollection("servers")
 db.createCollection("events")
 db.createCollection("claims")
 
-
+//Update the email addresses to that of your own Google+ and Facebook identities
 db.users.save([
 {
     "_id": ObjectId("555192c05bdb5729418d020c"),
@@ -27,7 +27,7 @@ db.users.save([
     "password": "",
     "role": "SUPERVISOR",
     "status": "active",
-    "email": "shiels.peter.au@gmail.com"
+    "email": "youremail@facebook.com"
 },
 {
     "_id": ObjectId("555192c05bdb5729418d020b"),
@@ -36,7 +36,7 @@ db.users.save([
     "password": "",
     "role": "ADMINISTRATOR",
     "status": "active",
-    "email": "adjudah@iinet.net.au"
+    "email": "youremail  @gmail.com"
 }
 ])
 

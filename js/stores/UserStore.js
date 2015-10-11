@@ -9,13 +9,8 @@
  * UserStore
  */
 var client = require('browser-request');
-var params = {
-    serviceDomain: 'http://localhost:3000/',
-    serviceRequest: function ( requestPath ) {
-                        return { url: this.serviceDomain + requestPath, json: true };
-                    }
-    };
 
+var params = require('./RequestParams')
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var Actions = require('../actions/Actions')
@@ -32,8 +27,9 @@ function update(userName, userRole) {
 }
 
 
-var getUser = function (userName, actionType) {
-    client( params.serviceRequest('user/' + userName),
+var getUser = function (email, actionType) {
+    console.log('In getUser: ' + email);
+    client( params.getRequest('user/' + email),
     function (err, res) {
         if(err){
             console.log("An error ocurred >>>>>>");
@@ -81,9 +77,9 @@ AppDispatcher.register(function(action) {
     switch(action.actionType) {
 
     case Actions.ActionTypes.AUTHENTICATE_USER:
-        action.userName = action.userName == null ? '' : action.userName.trim();
-        if (action.userName !== ''){
-            getUser(action.userName, Actions.ActionTypes.AUTHENTICATE_USER);
+        action.email = action.email == null ? '' : action.email.trim();
+        if (action.email !== ''){
+            getUser(action.email, Actions.ActionTypes.AUTHENTICATE_USER);
         }
         break;
          

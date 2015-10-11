@@ -9,19 +9,7 @@
  * ServerStore
  */
 var client = require('browser-request');
-var params = {
-        serviceDomain: 'http://localhost:3000/',
-        serviceRequest: function ( requestPath ) {
-            return { url: this.serviceDomain + requestPath, json: true };
-        },
-        postRequest: function ( requestPath, body ) {
-            return { url: this.serviceDomain + requestPath, method: 'POST', json: true, body: body };
-        },
-        deleteRequest: function (requestPath) {
-            return { url: this.serviceDomain + requestPath, method: 'DELETE', json: true };
-        }
-    
-    };
+var params = require('./RequestParams')
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
@@ -36,7 +24,7 @@ var _servers = [];
 
 
 var getServer = function (serverID) {
-    client( params.serviceRequest('server/' + serverID),
+    client( params.getRequest('server/' + serverID),
     function (err, res) {
         if(err){
             console.log("An error ocurred >>>>>>");
@@ -53,7 +41,7 @@ var getServer = function (serverID) {
 }
 
 var getServersForAdminUser = function (userID, actionType) {
-    client( params.serviceRequest('servers/' + userID),
+    client( params.getRequest('servers/' + userID),
     function (err, res) {
         if(err){
             console.log("An error ocurred >>>>>>");

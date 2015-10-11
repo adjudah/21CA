@@ -5,6 +5,10 @@ var UserStore = require('../stores/UserStore');
 var ServerStore = require('../stores/ServerStore');
 var EventStore = require('../stores/EventStore');
 var MessageRouter = require('../stores/MessageRouter');
+var Auth0Lock = require('auth0-lock');
+var AUTH0_CLIENT_ID='AqX7RmVFDRXurxz3nFNcV9hrV62A0qpt'; 
+var AUTH0_DOMAIN='21ca.auth0.com'; 
+var AUTH0_CALLBACK_URL=location.href;
 
 var keyMirror = require('keymirror');
 var PageTypes = keyMirror({
@@ -21,6 +25,47 @@ var App = React.createClass({
     getInitialState: function() {
         return { currentPage: PageTypes.LOGIN, pageStack: []};
     },
+    createLock: function() {
+        this.lock = new Auth0Lock(AUTH0_CLIENT_ID, AUTH0_DOMAIN);
+    },
+    /* extracts the token from local storage if there is one.
+        Otherwise extract the token from the URL (which implies that
+        the auth0-lock screen has accepted credentials and it has redirected back to 21CA.
+        If a token exists, the profile of the user is extracted from it.
+        The email address of the user is extracted from the user profile and this key
+        is used to identify the 21CA user and role. Identifying the user and role means that
+        we know what the frist screen after login is.
+    */
+    getIdToken: function() {
+        var idToken = localStorage.getItem('userToken');
+        var authHash = this.lock.parseHash(window.location.hash);
+        if (!idToken && authHash) {
+            if (authHash.id_token) {
+                idToken = authHash.id_token
+                localStorage.setItem('userToken', authHash.id_token);
+            }
+            if (authHash.error) {
+                console.log("Error signing in", authHash);
+                return null;
+            }
+        }
+        this.lock.getProfile(idToken, function(err, profile){
+            if (err) {
+                idToken = null;
+            } else {
+                console.log(profile);
+                Actions.authenticate(profile.email);
+            }
+        });
+        return idToken;
+    },
+    componentWillMount: function() {
+        localStorage.removeItem('userToken');
+        this.createLock();
+        this.setState({idToken: this.getIdToken() });
+
+    },
+
     // register listener with  stores ... get notified when the Store updates
     componentDidMount: function()
     {
@@ -28,6 +73,7 @@ var App = React.createClass({
         ServerStore.addChangeListener(this._onChangeServerStore);
         EventStore.addChangeListener(this._onChangeEventStore);
 		MessageRouter.addChangeListener(this._onPageRequest);
+
 
     },
     //Unregister listener
@@ -38,10 +84,9 @@ var App = React.createClass({
 		MessageRouter.removeChangeListener(this._onPageRequest);
 		
     },
-    /* Notes about the following 3 call routines:
-        I have organised for these call backs to return the action type that has just been completed.
-    */
-    //Event handler for 'change' events coming from the UserStore
+    //Event handler for 'change' events coming from the UserStore.
+    // Action type is the requested action that has just been completed.
+    // In this case user.role determines the next action to complete.
     _onChangeUserStore: function(actionType) {
         var _user = UserStore.getUser();
         console.log( 'completed action: ' + actionType);
@@ -121,7 +166,23 @@ var App = React.createClass({
         var _user = UserStore.getUser();
         switch(this.state.currentPage) {
         case PageTypes.LOGIN:
-            return <LoginPage/>;
+            //invokes auth0 login screen. After login auth0 redirects back to the main page
+            //i.e. it re-enters 21CA, but this time the token is embedded in the url.
+            if (!this.state.idToken)
+                this.lock.show({
+                    connections: ['google-oauth2', 'facebook'],
+                    socialBigButtons: true,
+                    popup: true},
+                    function (err, profile, token) {
+                        if (err){
+                            alert('Login failed');
+                        } else {
+                            localStorage.setItem('userToken', token);
+                            Actions.authenticate(profile.email);
+                        }
+                    }
+                );
+            return <NoPage />
         case PageTypes.CONTROL_SERVERS:
             return <ControlServersPage/>;
         case PageTypes.VIEW_SERVER:
@@ -139,26 +200,9 @@ var App = React.createClass({
     }
 });
 
-var LoginPage = React.createClass({
-    onSave: function(e){
-        e.preventDefault();
-        Actions.authenticate(document.getElementById('userName').value, document.getElementById('password').value);
-    },
+var NoPage = React.createClass({
     render: function() {
-        return (
-                <div className="page_outline">
-                    <div className="page_title">Login into 21CA</div>
-                    <div>
-                        <form onSubmit={this.onSave}>
-                            <div className="label_container">User Name:</div><input className="field_spacing" id="userName" type ="text"/>
-                            <br/>
-                            <div className="label_container">Password:</div><input className="field_spacing" id="password" type ="password"/>
-                            <br/>
-                            <div className="label_container"/><input className="align_right" type="submit" value="Submit" />
-                        </form>
-                    </div>
-                </div>
-                );
+        return ( <span></span> );
     }
                                    
 });
@@ -176,11 +220,13 @@ var ControlServersPage = React.createClass({
         if (servers == null){
             return (
                     <div className="panel">
-                        <div>
-                            <span className="panel_title">Control Servers</span>
+                         <div className="panel_header">
+                            <div className="panel_title">Control Servers</div>
                             <a className="panel_add" onClick={this.addServer}>+</a>
-                        </div>                        
-                        <div>No servers configured for user.</div>
+                        </div>
+                        <div className="panel_body">
+                            <div>No servers configured for user.</div>
+                        </div>
                     </div>
             );
         }
@@ -198,13 +244,16 @@ var ControlServersPage = React.createClass({
                     </div>
                 );
             }
+            //<a className="panel_add panel_right" onClick={this.addServer}>+</a>
             return (
                     <div className="panel">
-                        <div>
-                            <span className="panel_title">Control Servers</span>
-                            <a className="panel_add panel_right" onClick={this.addServer}>+</a>
+                        <div className="panel_header">
+                            <div className="panel_title">Control Servers</div>
+                            <a className="panel_add" onClick={this.addServer}>+</a>
                         </div>
-                        {items}
+                        <div className="panel_body">
+                            {items}
+                        </div>
                     </div>
               );
             }
@@ -226,10 +275,10 @@ var ViewServerPage = React.createClass({
         var server = ServerStore.getServer();
         return (
             <div className="panel">
-                <div>
+                <div className="panel_header">
                     <a className="panel_navigate" onClick={this.previousPage}>&lt;</a>
-                    <span className="panel_title">Control Server</span>
-                    <a className="panel_navigate panel_right">edit</a>
+                    <div className="panel_title">Control Server</div>
+                    <a className="panel_navigate">edit</a>
                 </div>
                 <div className="panel_label">id</div><div className="panel_value">{this.state.server._id}</div><br/>
                 <div className="panel_label">name</div><div className="panel_value">{this.state.server.name}</div><br/>
@@ -238,8 +287,10 @@ var ViewServerPage = React.createClass({
                 <div className="panel_label">status</div><div className="panel_value">{this.state.server.status}</div><br/>
                 <a className="panel_navigate panel_right" onClick={this.deleteServer}>delete</a>
                 <br/>
-                <p>Edit link not implemented. The Back, and Delete links do work</p>
-                <br/>
+                <div className="panel_label_long">document.body.clientWidth</div><div className="panel_value">{document.body.clientWidth}</div><br/>
+                <div className="panel_label_long">document.body.clientHeight</div><div className="panel_value">{document.body.clientHeight}</div><br/>
+                <div className="panel_label_long">window.innerWidth</div><div className="panel_value">{window.innerWidth}</div><br/>
+                <div className="panel_label_long">window.innerHeight</div><div className="panel_value">{window.innerHeight}</div><br/>
             </div>
         );
     }
