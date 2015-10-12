@@ -50,13 +50,13 @@ that you will be logging in with.
 Note: After sucessful authentication with auth0 a token is returned. The token contains the user's profile and in particular the user's email address. The email address is the primary key into the user database, hence the email address must uniquely identify one of the users in the 21CA database.
 ```
 cd <project folder>/web-services
-mongo localhost/test loadInitialData.js //opens the Test DB on Local host
+mongo localhost/test loadInitialData.js 	//opens the Test DB on Local host
 								     			//then creates the 21CA DB
 ```
 Confirm sucessful load with:
 ```
-mongo				//should connect and place you in the test database.
-use 21CAv1						// this is case sensitive
+mongo						//should connect and place you in the test database.
+use 21CAv1							// this is case sensitive
 db.users.find()						// should return 3 users
 db.servers.find()					// should return 3 servers
 db.evets.find()						// should return 3 events
@@ -66,7 +66,7 @@ We are now ready to run the project:
 cd <project folder>
 http-server -p 8000             //Serves files from the current diectory. 
 cd web-services
-node server.js				//to run the web services configured to listen on port 3000
+node server.js					//to run the web services configured to listen on port 3000
 ```
 Then from the browser:
 ```
