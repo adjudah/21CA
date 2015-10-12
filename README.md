@@ -1,6 +1,6 @@
 # 21CA Prototype
 
-> A mobile web app based upon React, Flux, Browser-request and Rectify for the REST services.
+> A mobile web app based upon React, Flux, Browser-request, Restify for the REST services and auth0-lock for authentication. Cordova will used to render the mobile app.
 
 
 ## Based upon this tutorial:
@@ -12,7 +12,7 @@ The [Flux](http://facebook.github.io/flux) and [React](http://facebook.github.io
 
 ## Notes
 
-__Browserify/watchify__ is being used bundle to the rquired modules. This means that we can only depend upon __npm modules__. i.e. There can only be one script reference to bundle.js or bundle.min.js in the html page.
+__Browserify/watchify__ is being used bundle to the rquired modules. This means that we can only depend upon __npm modules__. i.e. There can only be one script reference to bundle.js or bundle.min.js in the html page. Actually this is not stricly true: here can be more than one reference, but don't expect the bundle.js reference to interact with any other script reference.
 
 Web services are being implemented in __Restify__ and the persistent layer in __Mongodb__.
 
@@ -23,7 +23,7 @@ Client access to these web services are inplemented with __browser-request__. Re
 Run these commands from the command line to install project dependencies.
 ```
 cd <project folder>
-npm install				//installs dependencies in package.json in current folder.
+npm install		//installs dependencies in package.json in current folder.
 cd web-services         //is a sub dir of 21CA but is not part of the web app;
 npm install             //installs restify and mongdo. See package.json in this folder.
 ```
@@ -32,9 +32,9 @@ To build the project, first run this command:
 ```
 cd <project folder>
 npm start		//Monitors your source code changes and produces bundle.js. 
-				//See package.json scripts section
+			//See package.json scripts section
 ```
-Install npm module http-server globally if not already installed. hint: npm list -global
+Install npm module: http-server globally if not already installed. hint: npm list -global
 ```
 npm install -g http-server
 ```
@@ -47,24 +47,26 @@ installation directory for mongodb. Try running:
 If sucessful go on to define the 21CA database and use script 'LoadInitialData.js to fill with data. 
 Before running the script edit it and modify the user email address to match the credentials of users 
 that you will be logging in with.
+Note: After sucessful authentication with auth0 a token is returned. The token contains the user's profile and in particular the user's email address. The email address is the primary key into the user database, hence the email address must uniquely identify one of the users in the 21CA database.
 ```
 cd <project folder>/web-services
-<mongodb installation folder>mongo localhost/test loadInitialData.js
+<mongodb installation folder>mongo localhost/test loadInitialData.js //opens the Test DB on Local host
+								     //then creates the 21CA DB
 ```
 Confirm sucessful load with:
 ```
 <mongodb installation folder>mongo		//should connect and place you in the test database.
-use 21CAv1								// this is case sensitive
-db.users.find()							// should return 3 users
-db.servers.find()						// should return 3 servers
-db.evets.find()							// should return 3 events
+use 21CAv1					// this is case sensitive
+db.users.find()					// should return 3 users
+db.servers.find()				// should return 3 servers
+db.evets.find()					// should return 3 events
 ```
 We are now ready to run the project:
 ```
 cd <project folder>
 http-server -p 8000             //Serves files from the current diectory. 
 cd web-services
-node server.js					//to run the web services configured to listen on port 3000
+node server.js			//to run the web services configured to listen on port 3000
 ```
 Then from the browser:
 ```
