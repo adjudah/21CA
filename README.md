@@ -77,13 +77,13 @@ The following artifacts are taken from the browser based 21CA github project:
 ```
 index.html
 css/base.css
-js/bundele.js		//This is not in the repository. It is composed by Browserify from the js source code
-			//see step: npm start above.
+js/bundele.js    //This is not in the repository. It is composed by Browserify from the js source code
+                 //see step: npm start above.
 ```
 if you have not already installed Cordova:
 ```
-npm install -g Cordova		//global install
-cordova -v			//version should be 5.3.3 or greater.
+npm install -g Cordova    //global install
+cordova -v                //version should be 5.3.3 or greater.
 ```
 create the Cordova project:
 ```
@@ -102,11 +102,11 @@ npm start			 //if not already running. It will produce the new bundle.js file
 Place the artifacts from the Web project into the Cordova folder structure:
 ```
 Source                   Destination
-index.html		 21CA/www/index.html		//replaces exist file
-css/base.css		 21CA/www/css/base.css		//delete existing index.css
-js/bundle.js		 21CA/www/js/bundle.js		//delete existing index.js
+index.html               21CA/www/index.html            //replaces exist file
+css/base.css             21CA/www/css/base.css          //delete existing index.css
+js/bundle.js             21CA/www/js/bundle.js          //delete existing index.js
 ```
-Edit the top level config.xml
+Edit the top level config.xml and insert the two <preference> frgments below:
 ```
 <platform name="ios">
     <allow-intent href="itms:*" />
@@ -125,9 +125,9 @@ edit __platforms/ios/21CA/21CA-info.plist__ and add this fragment: (to allow htt
 ```
 Build the project:
 ```
-Cordova build        		//builds both IOS and android platforms
+Cordova build                 //builds both IOS and android platforms
 cordova emulate android
-cordova emulate ios		// on OSX machines only
+cordova emulate ios           // on OSX machines only
 ```
 
 ## License
