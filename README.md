@@ -23,7 +23,7 @@ Client access to these web services are inplemented with __browser-request__. Re
 Run these commands from the command line to install project dependencies.
 ```
 cd <project folder>
-npm install			//installs dependencies in package.json in current folder.
+npm install				//installs dependencies in package.json in current folder.
 cd web-services         //is a sub dir of 21CA but is not part of the web app;
 npm install             //installs restify and mongdo. See package.json in this folder.
 ```
@@ -31,8 +31,8 @@ npm install             //installs restify and mongdo. See package.json in this 
 To build the project, first run this command:
 ```
 cd <project folder>
-npm start		//Monitors your source code changes and produces bundle.js. 
-				//See package.json scripts section
+npm start				//Monitors your source code changes and produces bundle.js. 
+						//See package.json scripts section
 ```
 Install npm module: http-server globally if not already installed. hint: npm list -global
 ```
@@ -50,12 +50,12 @@ that you will be logging in with.
 Note: After sucessful authentication with auth0 a token is returned. The token contains the user's profile and in particular the user's email address. The email address is the primary key into the user database, hence the email address must uniquely identify one of the users in the 21CA database.
 ```
 cd <project folder>/web-services
-<mongodb installation folder>mongo localhost/test loadInitialData.js //opens the Test DB on Local host
+mongo localhost/test loadInitialData.js //opens the Test DB on Local host
 								     			//then creates the 21CA DB
 ```
 Confirm sucessful load with:
 ```
-<mongodb installation folder>mongo		//should connect and place you in the test database.
+mongo				//should connect and place you in the test database.
 use 21CAv1						// this is case sensitive
 db.users.find()						// should return 3 users
 db.servers.find()					// should return 3 servers
