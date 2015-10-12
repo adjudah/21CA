@@ -72,5 +72,35 @@ Then from the browser:
 ```
 http://localhost:8000/index.html
 ```
+## Cordova setup and configuration
+The following artifacts are taken from the browser based 21CA github project:
+```
+index.html
+css/base.css
+js/bundele.js		//This is not in the repository. It is composed by Browserify from the js source code
+			//see step: npm start above.
+```
+if you have not already installed Cordova:
+```
+npm install -g Cordova		//global install
+cordova -v			//version should be 5.3.3 or greater.
+```
+create the Cordova project:
+```
+cordova create 21CA com.example.AC12 21CA       //Creates folder 21CA
+cd 21CA
+cordova platform add IOS
+cordova platform add android
+Cordova plugin a cordova-plugin-inappbrowser    //required for auth0 to operate in IOS/android
+```
+edit the top level config.xml
+```
+<platform name="ios">
+    <allow-intent href="itms:*" />
+    <allow-intent href="itms-apps:*" />
+    __<preference name="DisallowOverscroll" value="true" />__  
+    __preference name="webviewbounce" value="false" />__        Stops Web view bouncing
+    </platform>
+```
 ## License
 ??????
