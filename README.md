@@ -23,7 +23,7 @@ Client access to these web services are inplemented with __browser-request__. Re
 Run these commands from the command line to install project dependencies.
 ```
 cd <project folder>
-npm install		//installs dependencies in package.json in current folder.
+npm install			//installs dependencies in package.json in current folder.
 cd web-services         //is a sub dir of 21CA but is not part of the web app;
 npm install             //installs restify and mongdo. See package.json in this folder.
 ```
@@ -32,7 +32,7 @@ To build the project, first run this command:
 ```
 cd <project folder>
 npm start		//Monitors your source code changes and produces bundle.js. 
-			//See package.json scripts section
+				//See package.json scripts section
 ```
 Install npm module: http-server globally if not already installed. hint: npm list -global
 ```
@@ -51,22 +51,22 @@ Note: After sucessful authentication with auth0 a token is returned. The token c
 ```
 cd <project folder>/web-services
 <mongodb installation folder>mongo localhost/test loadInitialData.js //opens the Test DB on Local host
-								     //then creates the 21CA DB
+								     			//then creates the 21CA DB
 ```
 Confirm sucessful load with:
 ```
 <mongodb installation folder>mongo		//should connect and place you in the test database.
-use 21CAv1					// this is case sensitive
-db.users.find()					// should return 3 users
-db.servers.find()				// should return 3 servers
-db.evets.find()					// should return 3 events
+use 21CAv1						// this is case sensitive
+db.users.find()						// should return 3 users
+db.servers.find()					// should return 3 servers
+db.evets.find()						// should return 3 events
 ```
 We are now ready to run the project:
 ```
 cd <project folder>
 http-server -p 8000             //Serves files from the current diectory. 
 cd web-services
-node server.js			//to run the web services configured to listen on port 3000
+node server.js				//to run the web services configured to listen on port 3000
 ```
 Then from the browser:
 ```
