@@ -93,14 +93,42 @@ cordova platform add IOS
 cordova platform add android
 Cordova plugin a cordova-plugin-inappbrowser    //required for auth0 to operate in IOS/android
 ```
-edit the top level config.xml
+Modify web service URL from http://localhost:3000 to the IP address of the machine running the web service.
+To do this go back to the web project and edit: /js/stores/RequestParams.js i.e. replace the localhost reference.
+```
+/js/stores/RequestParams.js      //replace the localhost reference.
+npm start			 //if not already running. It will produce the new bundle.js file
+```
+Place the artifacts from the Web project into the Cordova folder structure:
+```
+Source                   Destination
+index.html		 21CA/www/index.html		//replaces exist file
+css/base.css		 21CA/www/css/base.css		//delete existing index.css
+js/bundle.js		 21CA/www/js/bundle.js		//delete existing index.js
+```
+Edit the top level config.xml
 ```
 <platform name="ios">
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
-    __<preference name="DisallowOverscroll" value="true" />__  
-    __preference name="webviewbounce" value="false" />__        Stops Web view bouncing
-    </platform>
+    <preference name="DisallowOverscroll" value="true" />  
+    <preference name="webviewbounce" value="false" />       Stops Web view bouncing
+</platform>
 ```
+edit __platforms/ios/21CA/21CA-info.plist__ and add this fragment: (to allow http requests. Normally only https is allowed)
+```
+<key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
+    </dict>
+```
+Build the project:
+```
+Cordova build        		//builds both IOS and android platforms
+cordova emulate android
+cordova emulate ios		// on OSX machines only
+```
+
 ## License
 ??????
