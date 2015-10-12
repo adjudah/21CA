@@ -51,11 +51,11 @@ Note: After sucessful authentication with auth0 a token is returned. The token c
 ```
 cd <project folder>/web-services
 mongo localhost/test loadInitialData.js 	//opens the Test DB on Local host
-								     			//then creates the 21CA DB
+								     		//then creates the 21CA DB
 ```
 Confirm sucessful load with:
 ```
-mongo						//should connect and place you in the test database.
+mongo							//should connect and place you in the test database.
 use 21CAv1							// this is case sensitive
 db.users.find()						// should return 3 users
 db.servers.find()					// should return 3 servers
